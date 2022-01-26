@@ -8,12 +8,10 @@ program = ARGF.lines.map do |line|
   end
 end
 
-regs = {}
+regs = Hash.new(0)
 top = 0
 program.each do |inst|
-  regs[inst.creg] ||= 0
   if eval("regs[inst.creg] #{inst.cond} #{inst.cval}")
-    regs[inst.dreg] ||= 0
     regs[inst.dreg] += inst.incval
     top = [regs[inst.dreg], top].max
   end
